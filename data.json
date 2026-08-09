@@ -1,19 +1,19 @@
 {
-  "updated": "2026/08/09（Apps Scriptテスト）",
+  "updated": "2026/08/09",
   "summary": {
-    "total": 15468263,
-    "net": 13921437,
+    "total": 15191018,
+    "net": 13671916,
     "invested": 14553705,
-    "unrealized": 914558,
-    "pct": 6.28,
+    "unrealized": 637313,
+    "pct": 4.4,
     "psa10": 92,
     "kinds": 176
   },
   "allocation": [
     {
       "name": "ポケカ",
-      "value": 14735263,
-      "pct": 95.3,
+      "value": 14458018,
+      "pct": 95.2,
       "color": "var(--blue)"
     },
     {
@@ -23,22 +23,22 @@
       "color": "var(--orange)"
     },
     {
-      "name": "他",
-      "value": 384000,
-      "pct": 2.5,
-      "color": "var(--aqua)"
-    },
-    {
       "name": "遊戯王",
       "value": 0,
       "pct": 0,
       "color": "var(--baseline)"
+    },
+    {
+      "name": "他",
+      "value": 384000,
+      "pct": 2.5,
+      "color": "var(--aqua)"
     }
   ],
   "signals": {
     "sell": 29,
-    "hold": 14,
-    "loss": 65,
+    "hold": 15,
+    "loss": 64,
     "keep": 68
   },
   "sellTotalRihaba": 226068,
@@ -49,8 +49,8 @@
       "value": 11754532
     },
     {
-      "label": "8/8",
-      "value": 15468263
+      "label": "8/9",
+      "value": 15191018
     }
   ],
   "sells": [
@@ -119,78 +119,96 @@
     {
       "name": "STORY BOOSTER 01 BOX",
       "tag": "DB",
-      "buyAt": "定価6,600〜9,000",
+      "buyAt": "定価6600〜9000",
       "score": "S",
-      "note": "8/8発売・予約即完売傾向",
+      "note": "8/8発売・予約即完売傾向。MANGA BOOSTER再現期待",
       "verdict": "買い",
       "cls": "buy"
     },
     {
-      "name": "LIMITED PACK WCS2026 BOX",
-      "tag": "遊戯王",
-      "buyAt": "定価〜5,000",
-      "score": "S",
-      "note": "8/29発売・OTS限定。歴代WCSはプレ値化",
-      "verdict": "買い",
-      "cls": "buy"
-    },
-    {
-      "name": "劇場版ROAD TO NINJA 未開封セット",
+      "name": "劇場版ROAD TO NINJA 入場者特典 未開封セット",
       "tag": "NARUTO",
-      "buyAt": "20,000以下",
+      "buyAt": "20000以下",
       "score": "S",
-      "note": "NR-15素体高騰に連動",
+      "note": "NR-15素体高騰に連動、真贋・未開封確認必須",
       "verdict": "買い",
       "cls": "buy"
     },
     {
-      "name": "QUARTER CENTURY ART COLLECTION",
+      "name": "LIMITED PACK WORLD CHAMPIONSHIP 2026 BOX",
       "tag": "遊戯王",
-      "buyAt": "5,000以下",
-      "score": "B",
-      "note": "定価割れの仕込み型・1〜2年",
-      "verdict": "買い(長期)",
+      "buyAt": "定価〜5000",
+      "score": "S",
+      "note": "8/29発売・OTS限定。歴代WCS限定はプレ値化",
+      "verdict": "買い",
       "cls": "buy"
     },
     {
-      "name": "世界最強の戦士 BOX",
-      "tag": "ワンピ・OP-17",
-      "buyAt": "定価入手のみ",
-      "score": "B",
-      "note": "8/22発売・4周年。プレ値は追わない",
-      "verdict": "抽選/定価",
-      "cls": "lot"
+      "name": "プレミアムカードコレクション 25周年エディション",
+      "tag": "ワンピ",
+      "buyAt": "押し目18000〜19000",
+      "score": "A",
+      "note": "受注限定・定価2200円の10倍に定着",
+      "verdict": "様子見",
+      "cls": "buy"
     },
     {
-      "name": "30th CELEBRATION BOX",
-      "tag": "ポケモン",
-      "buyAt": "定価7,200（抽選）",
-      "score": "B",
-      "note": "9/16発売・30周年。初動短期利確",
-      "verdict": "抽選参加",
-      "cls": "lot"
+      "name": "ブースターパック「限界を超えし者」BOX",
+      "tag": "DB",
+      "buyAt": "6000以下",
+      "score": "A",
+      "note": "在庫払底でじり高。低リスク寝かせ",
+      "verdict": "様子見",
+      "cls": "buy"
+    },
+    {
+      "name": "NARUTOカードゲーム 初版（予約）",
+      "tag": "NARUTO",
+      "buyAt": "定価予約・全枠確保",
+      "score": "A",
+      "note": "バンダイ新作TCG。12月に商品詳細発表",
+      "verdict": "予約待ち",
+      "cls": "buy"
+    },
+    {
+      "name": "QUARTER CENTURY CHRONICLE side:UNITY BOX",
+      "tag": "遊戯王",
+      "buyAt": "8500以下",
+      "score": "A",
+      "note": "全カードスーレア以上の25周年仕様",
+      "verdict": "様子見",
+      "cls": "buy"
+    },
+    {
+      "name": "QUARTER CENTURY LIMITED PACK BOX",
+      "tag": "遊戯王",
+      "buyAt": "7000以下",
+      "score": "A",
+      "note": "受注限定・再販ゼロ。6000円割れは拾い",
+      "verdict": "様子見",
+      "cls": "buy"
     }
   ],
   "top5": [
     {
       "name": "ブラッキー（★・旧裏）PSA10",
-      "value": 1100000
-    },
-    {
-      "name": "ワタルのリザードン（VS・1ED）",
-      "value": 820000
+      "value": 950300
     },
     {
       "name": "わるいゲンガー（★・旧裏）",
-      "value": 800000
+      "value": 845555
+    },
+    {
+      "name": "ワタルのリザードン（VS・1ED）",
+      "value": 798000
     },
     {
       "name": "カツラのリザードン（旧裏）PSA10",
       "value": 570000
     },
     {
-      "name": "ピカチュウ（スプリットアース）",
-      "value": 478000
+      "name": "わるいエーフィ（★・旧裏）",
+      "value": 450000
     }
   ],
   "brief": {
@@ -255,6 +273,12 @@
     },
     "diversify": "ポケカ一極のヘッジに——遊戯王25th限定（再販ゼロ・下値堅い）、DB新弾（初動）、ナルト2027新作（初版バブル前例）。少額から興味カテゴリを広げると市場感度も上がる。",
     "pulses": [
+      {
+        "d": "8/9",
+        "mood": "自動更新（ポケカ95.2%集中）",
+        "act": "うずまきナルト NR-15（劇場版特典） を利確（利幅+¥135,121）",
+        "alert": "特筆なし"
+      },
       {
         "d": "8/8",
         "mood": "ポケカ調整継続・ワンピ強い",
