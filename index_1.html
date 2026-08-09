@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0d0d0d">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ToreLab">
+<title>ToreLab｜トレカ資産ラボ</title>
+<style>
+  :root{
+    --plane:#0d0d0d; --surface:#1a1a19; --surface-2:#222220;
+    --ink:#ffffff; --ink-2:#c3c2b7; --muted:#898781;
+    --grid:#2c2c2a; --baseline:#383835; --border:rgba(255,255,255,0.10);
+    --blue:#3987e5; --orange:#d95926; --aqua:#199e70; --yellow:#c98500;
+    --good:#0ca30c; --good-ink:#5ee06a; --warning:#fab219; --critical:#e66767;
+    --radius:16px; --nav-h:60px;
+    font-family: system-ui, -apple-system, "Segoe UI", "Hiragino Sans", "Noto Sans JP", sans-serif;
+  }
+  *{box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent;}
+  html,body{background:var(--plane); color:var(--ink);}
+  body{min-height:100dvh;}
+  .app{max-width:520px; margin:0 auto; min-height:100dvh; padding:0 16px calc(var(--nav-h) + env(safe-area-inset-bottom) + 24px); position:relative;}
+  .tabular{font-variant-numeric:tabular-nums;}
+  a{color:inherit; text-decoration:none;}
+
+  header{position:sticky; top:0; z-index:20; background:linear-gradient(var(--plane) 78%, rgba(13,13,13,0)); padding:calc(env(safe-area-inset-top) + 14px) 0 12px; display:flex; align-items:center; justify-content:space-between;}
+  .brand{display:flex; align-items:center; gap:10px;}
+  .logo{width:32px; height:32px; border-radius:9px; background:linear-gradient(135deg,var(--blue),#1c5cab); display:grid; place-items:center; font-weight:800; font-size:15px; color:#fff; box-shadow:0 2px 10px rgba(57,135,229,.35);}
+  .brand h1{font-size:16px; font-weight:700;}
+  .brand .sub{font-size:11px; color:var(--muted); margin-top:1px;}
+  .updated{font-size:11px; color:var(--muted); text-align:right; line-height:1.4;}
+  .dot{display:inline-block; width:7px; height:7px; border-radius:50%; background:var(--good); margin-right:5px; vertical-align:middle;}
+
+  .card{background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:16px; margin-bottom:12px;}
+  .card h2{font-size:13px; font-weight:600; color:var(--ink-2); margin-bottom:12px; display:flex; align-items:center; justify-content:space-between;}
+  .card h2 .hint{font-size:11px; color:var(--muted); font-weight:500;}
+
+  .hero{background:radial-gradient(120% 120% at 100% 0%, rgba(57,135,229,.16), transparent 55%), var(--surface);}
+  .hero .label{font-size:12px; color:var(--muted);}
+  .hero .total{font-size:38px; font-weight:800; letter-spacing:-.5px; margin:6px 0 10px; line-height:1;}
+  .hero .total .yen{font-size:22px; font-weight:700; color:var(--ink-2); margin-right:2px;}
+  .pill{display:inline-flex; align-items:center; gap:6px; padding:6px 11px; border-radius:999px; font-size:13px; font-weight:700;}
+  .pill.up{background:rgba(12,163,12,.15); color:var(--good-ink);}
+  .hero .net{margin-top:12px; font-size:12px; color:var(--muted);}
+  .hero .net b{color:var(--ink-2); font-weight:700;}
+
+  /* 今日の一手 */
+  .today{background:linear-gradient(135deg, rgba(12,163,12,.14), rgba(57,135,229,.10)), var(--surface); border:1px solid rgba(94,224,106,.28);}
+  .today .cap{font-size:11px; font-weight:800; letter-spacing:.5px; color:var(--good-ink); display:flex; align-items:center; gap:6px;}
+  .today .act{font-size:15px; font-weight:700; margin:8px 0 2px; line-height:1.4;}
+  .today .amt{font-size:30px; font-weight:800; color:var(--good-ink); letter-spacing:-.5px; margin:6px 0;}
+  .today .sub{font-size:12px; color:var(--ink-2);}
+  .today .go{margin-top:12px; width:100%; border:0; background:var(--good); color:#04210a; font-weight:800; font-size:14px; padding:12px; border-radius:11px; cursor:pointer; font-family:inherit;}
+
+  .kpis{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+  .kpi{background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:13px 14px;}
+  .kpi .k{font-size:11px; color:var(--muted);}
+  .kpi .v{font-size:20px; font-weight:700; margin-top:5px;}
+  .kpi .v small{font-size:12px; color:var(--ink-2); font-weight:600;}
+
+  .alloc{display:flex; align-items:center; gap:18px;}
+  .donut{width:112px; height:112px; border-radius:50%; flex:none;
+    background:conic-gradient(var(--blue) 0 95.3%, var(--orange) 95.3% 97.6%, var(--aqua) 97.6% 100%);
+    display:grid; place-items:center; position:relative;}
+  .donut::after{content:""; width:70px; height:70px; border-radius:50%; background:var(--surface);}
+  .donut .center{position:absolute; text-align:center;}
+  .donut .center .big{font-size:15px; font-weight:800;}
+  .donut .center .cap{font-size:9px; color:var(--muted);}
+  .legend{flex:1; display:flex; flex-direction:column; gap:9px;}
+  .legend .row{display:flex; align-items:center; gap:9px; font-size:13px;}
+  .legend .sw{width:10px; height:10px; border-radius:3px; flex:none;}
+  .legend .nm{flex:1; color:var(--ink-2); white-space:nowrap;}
+  .legend .pc{font-weight:700; font-variant-numeric:tabular-nums; min-width:46px; text-align:right;}
+  .legend .amt{font-size:11px; color:var(--muted); font-variant-numeric:tabular-nums; min-width:74px; text-align:right;}
+
+  .trend svg{width:100%; height:120px; display:block;}
+  .trend .cap{font-size:11px; color:var(--muted); margin-top:8px;}
+
+  .sec-title{font-size:20px; font-weight:800; margin:6px 0 14px;}
+
+  /* impact banner */
+  .impact{background:linear-gradient(135deg, rgba(230,103,103,.14), rgba(57,135,229,.08)), var(--surface); border:1px solid rgba(230,103,103,.28); border-radius:var(--radius); padding:15px 16px; margin-bottom:14px;}
+  .impact .l{font-size:12px; color:var(--ink-2);}
+  .impact .n{font-size:28px; font-weight:800; color:var(--good-ink); margin-top:4px; letter-spacing:-.5px;}
+  .impact .s{font-size:11px; color:var(--muted); margin-top:3px;}
+
+  .seg{display:flex; gap:6px; background:var(--surface-2); border:1px solid var(--border); border-radius:12px; padding:4px; margin-bottom:12px;}
+  .seg button{flex:1; border:0; background:transparent; color:var(--ink-2); font-size:13px; font-weight:700; padding:9px 6px; border-radius:9px; cursor:pointer; font-family:inherit;}
+  .seg button.on{background:var(--surface); color:var(--ink); box-shadow:0 1px 6px rgba(0,0,0,.4);}
+  .seg button .badge{display:inline-block; min-width:18px; padding:0 5px; margin-left:5px; font-size:11px; border-radius:999px; background:rgba(230,103,103,.2); color:var(--critical);}
+  .seg button .badge.g{background:rgba(12,163,12,.2); color:var(--good-ink);}
+
+  .sortbar{display:flex; align-items:center; gap:8px; margin:0 2px 12px; font-size:12px; color:var(--muted);}
+  .sortbar .chips{display:flex; gap:6px; margin-left:auto;}
+  .chip{border:1px solid var(--border); background:var(--surface); color:var(--ink-2); font-size:11.5px; font-weight:700; padding:6px 11px; border-radius:999px; cursor:pointer; font-family:inherit;}
+  .chip.on{background:var(--blue); color:#fff; border-color:var(--blue);}
+
+  .item{border-top:1px solid var(--border); padding:13px 0;}
+  .item:first-child{border-top:0;}
+  .item .head{display:flex; gap:12px;}
+  .item .rail{width:3px; border-radius:3px; flex:none;}
+  .item.sell .rail{background:var(--critical);} .item.buy .rail{background:var(--good);}
+  .item .body{flex:1; min-width:0;}
+  .item .nm{font-size:14px; font-weight:700; line-height:1.35;}
+  .item .meta{font-size:11px; color:var(--muted); margin-top:3px;}
+  .item .tags{display:flex; gap:6px; margin-top:8px; flex-wrap:wrap;}
+  .tag{font-size:10.5px; font-weight:700; padding:3px 8px; border-radius:7px; background:var(--surface-2); color:var(--ink-2); border:1px solid var(--border);}
+  .tag.s{color:var(--warning); border-color:rgba(250,178,25,.3);}
+  .item .right{text-align:right; flex:none; display:flex; flex-direction:column; align-items:flex-end; gap:2px;}
+  .item .rihaba{font-size:19px; font-weight:800; color:var(--good-ink); font-variant-numeric:tabular-nums; line-height:1;}
+  .item .rihaba .u{font-size:12px;}
+  .item .sub2{font-size:11px; color:var(--muted); font-variant-numeric:tabular-nums;}
+  .item .sub2 b{color:var(--ink-2);}
+  .verdict{font-size:11px; font-weight:800; padding:4px 9px; border-radius:8px;}
+  .verdict.buy{background:rgba(12,163,12,.16); color:var(--good-ink);}
+  .verdict.lot{background:rgba(57,135,229,.16); color:#7fb2f0;}
+
+  .toggle{margin-top:10px; margin-left:15px; font-size:12px; font-weight:700; color:#7fb2f0; cursor:pointer; user-select:none;}
+  .detail{margin:10px 0 2px 15px; padding:12px; background:var(--surface-2); border:1px solid var(--border); border-radius:12px; display:none;}
+  .detail.on{display:block;}
+  .detail .dl{font-size:11px; color:var(--muted); margin-bottom:8px;}
+  .venue{display:flex; align-items:center; justify-content:space-between; padding:7px 0; border-top:1px dashed var(--border); font-size:13px;}
+  .venue:first-of-type{border-top:0;}
+  .venue .vn{color:var(--ink-2);}
+  .venue .vv{font-weight:700; font-variant-numeric:tabular-nums;}
+  .venue .best{color:var(--good-ink);}
+  .cta{display:flex; gap:8px; margin-top:12px;}
+  .cta a{flex:1; text-align:center; background:var(--good); color:#04210a; font-weight:800; font-size:13px; padding:11px; border-radius:10px;}
+  .cta button{background:var(--surface); border:1px solid var(--border); color:var(--ink-2); font-weight:700; font-size:13px; padding:11px 14px; border-radius:10px; cursor:pointer; font-family:inherit;}
+  .pro{font-size:9px; font-weight:800; color:var(--yellow); border:1px solid rgba(201,133,0,.4); padding:1px 5px; border-radius:5px; margin-left:6px; vertical-align:middle;}
+
+  .rank{display:flex; align-items:center; gap:11px; padding:11px 0; border-top:1px solid var(--border);}
+  .rank:first-child{border-top:0;}
+  .rank .no{width:22px; height:22px; border-radius:7px; background:var(--surface-2); display:grid; place-items:center; font-size:12px; font-weight:800; color:var(--ink-2); flex:none;}
+  .rank .no.gold{background:linear-gradient(135deg,#e9c46a,#c98500); color:#231a00;}
+  .rank .info{flex:1; min-width:0;}
+  .rank .nm{font-size:13.5px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .rank .bar{height:5px; border-radius:3px; background:var(--surface-2); margin-top:6px; overflow:hidden;}
+  .rank .bar i{display:block; height:100%; background:linear-gradient(90deg,var(--blue),#1c5cab); border-radius:3px;}
+  .rank .val{font-size:13px; font-weight:700; font-variant-numeric:tabular-nums; flex:none;}
+
+  .note{font-size:11px; color:var(--muted); line-height:1.6; margin-top:8px;}
+
+  /* Brief */
+  .bhead{display:flex; align-items:center; gap:8px; margin-bottom:12px;}
+  .bhead .date{font-size:14px; font-weight:800;}
+  .bhead .type{font-size:10.5px; font-weight:800; color:#7fb2f0; background:rgba(57,135,229,.16); padding:3px 9px; border-radius:999px;}
+  .bsec{margin-top:16px;}
+  .bsec:first-child{margin-top:0;}
+  .blabel{font-size:11px; font-weight:800; letter-spacing:.4px; color:var(--muted); margin-bottom:8px;}
+  .lead{font-size:13.5px; line-height:1.65; color:var(--ink); background:var(--surface-2); border-left:3px solid var(--blue); padding:12px 14px; border-radius:0 10px 10px 0;}
+  .lead.warn{border-left-color:var(--warning);}
+  .catrow{display:flex; gap:11px; padding:11px 0; border-top:1px solid var(--border);}
+  .catrow:first-child{border-top:0;}
+  .catrow .cn{flex:none; width:56px;}
+  .catrow .cn .n{font-size:13px; font-weight:800;}
+  .catrow .cn .h{font-size:9.5px; color:var(--muted); margin-top:2px;}
+  .catrow .ct{flex:1; font-size:12px; color:var(--ink-2); line-height:1.55;}
+  .dir{display:inline-block; font-size:10.5px; font-weight:800; padding:2px 8px; border-radius:6px; margin-bottom:5px;}
+  .dir.down{background:rgba(236,131,90,.18); color:var(--serious);}
+  .dir.up{background:rgba(12,163,12,.16); color:var(--good-ink);}
+  .dir.flat{background:rgba(137,135,129,.2); color:var(--ink-2);}
+  .dir.watch{background:rgba(57,135,229,.16); color:#7fb2f0;}
+  .cal{display:flex; gap:12px; padding:9px 0; border-top:1px solid var(--border); font-size:12.5px;}
+  .cal:first-child{border-top:0;}
+  .cal .cd{flex:none; width:42px; font-weight:800; color:#7fb2f0; font-variant-numeric:tabular-nums;}
+  .cal .cx{flex:1; color:var(--ink-2);}
+  .ab{padding:10px 12px; border-radius:10px; margin-bottom:8px; font-size:12.5px; line-height:1.55;}
+  .ab .abl{font-size:10.5px; font-weight:800; margin-bottom:4px;}
+  .ab.sell{background:rgba(230,103,103,.10); border:1px solid rgba(230,103,103,.25);} .ab.sell .abl{color:var(--critical);}
+  .ab.buy{background:rgba(12,163,12,.10); border:1px solid rgba(12,163,12,.25);} .ab.buy .abl{color:var(--good-ink);}
+  .ab.caution{background:rgba(250,178,25,.10); border:1px solid rgba(250,178,25,.25);} .ab.caution .abl{color:var(--warning);}
+  .pulse{border-top:1px solid var(--border); padding:10px 0; font-size:12px;}
+  .pulse:first-child{border-top:0;}
+  .pulse .pd{font-weight:800; color:#7fb2f0; margin-right:6px;}
+
+  .view{display:none;} .view.on{display:block; animation:fade .25s ease;}
+  @keyframes fade{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:none;}}
+
+  nav{position:fixed; left:0; right:0; bottom:0; z-index:30; background:rgba(17,17,16,.92); backdrop-filter:blur(12px); border-top:1px solid var(--border); padding-bottom:env(safe-area-inset-bottom);}
+  .nav-in{max-width:520px; margin:0 auto; height:var(--nav-h); display:flex;}
+  nav button{flex:1; border:0; background:transparent; color:var(--muted); font-family:inherit; font-size:10.5px; font-weight:600; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; cursor:pointer;}
+  nav button svg{width:22px; height:22px; stroke:currentColor; fill:none; stroke-width:1.9;}
+  nav button.on{color:var(--blue);}
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="brand"><div class="logo">TL</div>
+      <div><h1>ToreLab</h1><div class="sub">トレカ資産ラボ</div></div>
+    </div>
+    <div class="updated"><span class="dot"></span><span id="upd"></span><br>参考値・自己記録ベース</div>
+  </header>
+
+  <!-- 資産 -->
+  <section class="view on" id="view-dash">
+    <div class="card hero">
+      <div class="label">総保有評価額</div>
+      <div class="total"><span class="yen">¥</span><span id="h-total"></span></div>
+      <span class="pill up" id="h-pill"></span>
+      <div class="net">想定手取り <b id="h-net"></b>　/　投下資本 <b id="h-inv"></b></div>
+    </div>
+
+    <div class="card today">
+      <div class="cap">⚡ 今日の一手（最大の利幅）</div>
+      <div class="act" id="t-act"></div>
+      <div class="amt" id="t-amt"></div>
+      <div class="sub" id="t-sub"></div>
+      <button class="go" onclick="showView('sig'); showSig('sell')">売り時シグナルを見る →</button>
+    </div>
+
+    <div class="kpis">
+      <div class="kpi"><div class="k">含み損益</div><div class="v" id="k-pl"></div></div>
+      <div class="kpi"><div class="k">含み損益率</div><div class="v" id="k-plp"></div></div>
+      <div class="kpi"><div class="k">PSA10 保有</div><div class="v" id="k-psa"></div></div>
+      <div class="kpi"><div class="k">保有カード種類</div><div class="v" id="k-kind"></div></div>
+    </div>
+
+    <div class="card">
+      <h2>ジャンル別内訳 <span class="hint">評価額ベース</span></h2>
+      <div class="alloc">
+        <div class="donut"><div class="center"><div class="big">ポケカ</div><div class="cap">95.3%</div></div></div>
+        <div class="legend" id="legend"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>資産推移 <span class="hint">月次記録</span></h2>
+      <div class="trend" id="trend"></div>
+      <div class="cap">※記録2点（8/4→8/8）。月末ごとに記録が増えるほど推移が見えます。</div>
+    </div>
+  </section>
+
+  <!-- シグナル -->
+  <section class="view" id="view-sig">
+    <div class="sec-title">シグナル</div>
+    <div class="seg">
+      <button class="on" data-sig="sell" onclick="showSig('sell')">🔴 売り時 <span class="badge" id="cnt-sell"></span></button>
+      <button data-sig="buy" onclick="showSig('buy')">🟢 買い候補 <span class="badge g" id="cnt-buy"></span></button>
+    </div>
+
+    <div id="pane-sell">
+      <div class="impact">
+        <div class="l">🔴 売り時をすべて利確すると</div>
+        <div class="n" id="imp-n"></div>
+        <div class="s" id="imp-s"></div>
+      </div>
+      <div class="sortbar">並べ替え
+        <div class="chips">
+          <button class="chip on" data-sort="rihaba" onclick="setSort('rihaba')">利幅（円）</button>
+          <button class="chip" data-sort="ret" onclick="setSort('ret')">実利率（％）</button>
+        </div>
+      </div>
+      <div class="card" id="sig-sell"></div>
+      <div class="note">利幅＝想定手取り（手数料10%込）− 投下原価。金額が大きいものから利確する方が資産は増えます。参考値・断定的助言ではありません。</div>
+    </div>
+
+    <div id="pane-buy" style="display:none">
+      <div class="card" id="sig-buy"></div>
+      <div class="note">買い目安・妙味はウォッチリスト設定に基づく参考値。買い判断は最新相場をご確認ください。</div>
+    </div>
+  </section>
+
+  <!-- 保有 -->
+  <section class="view" id="view-hold">
+    <div class="sec-title">保有</div>
+    <div class="card">
+      <h2>評価額 TOP5 <span class="hint">全176種のうち</span></h2>
+      <div id="top5"></div>
+    </div>
+    <div class="card">
+      <h2>ポートフォリオ内訳</h2>
+      <div class="note">
+        総評価額 <b style="color:var(--ink-2)">¥15,468,263</b>／想定手取り ¥13,921,437。<br>
+        🔴 売り時 29件・🟡 ホールド 14件・🔵 含み損 65件・💎 長期保管 68件（目標利確率 +20%）。<br>
+        未鑑定（素体）36枚・PSA10 92枚（平均ジェム率64.9%＝低いほどPSA10希少）。
+      </div>
+    </div>
+  </section>
+
+  <!-- ブリーフ -->
+  <section class="view" id="view-brief">
+    <div class="sec-title">ブリーフ</div>
+    <div class="card" id="brief"></div>
+    <div class="note">保有連動の市場ブリーフィング（参考値・非助言）。週次フルは月曜9時、日次パルスは毎朝更新。月次でアーカイブされます。</div>
+  </section>
+</div>
+
+<nav><div class="nav-in">
+  <button class="on" data-nav="dash" onclick="showView('dash')"><svg viewBox="0 0 24 24"><path d="M3 12l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>資産</button>
+  <button data-nav="brief" onclick="showView('brief')"><svg viewBox="0 0 24 24"><path d="M4 5h16v14H4z"/><path d="M8 9h8M8 13h8M8 17h5"/></svg>ブリーフ</button>
+  <button data-nav="sig" onclick="showView('sig')"><svg viewBox="0 0 24 24"><path d="M3 17l5-5 4 3 6-7"/><path d="M15 8h5v5"/></svg>シグナル</button>
+  <button data-nav="hold" onclick="showView('hold')"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg>保有</button>
+</div></nav>
+
+<script>
+/* ===== データ（将来 data.json に分離：朝の更新でExcel台帳から生成） ===== */
+const DATA = {
+  updated: "2026/08/08",
+  summary: { total:15468263, net:13921437, invested:14553705, unrealized:914558, pct:6.28, psa10:92, kinds:176 },
+  allocation: [
+    { name:"ポケカ", value:14735263, pct:95.3, color:"var(--blue)" },
+    { name:"ワンピ", value:349000, pct:2.3, color:"var(--orange)" },
+    { name:"他", value:384000, pct:2.5, color:"var(--aqua)" },
+    { name:"遊戯王", value:0, pct:0, color:"var(--baseline)" }
+  ],
+  signals: { sell:29, hold:14, loss:65, keep:68 },
+  sellTotalRihaba: 226068, sellCount: 29,
+  trend: [ {label:"8/4", value:11754532}, {label:"8/8", value:15468263} ],
+  /* 売り時：同一商品を数量集計し、利幅(円)で降順 */
+  sells: [
+    { name:"うずまきナルト NR-15（劇場版特典）", tag:"NARUTO", qty:10, price:40000, net:345600, cost:210479, rihaba:135121, retMax:80, retLabel:"+54〜80%", overseas:false },
+    { name:"ONE PIECE -6 assort vol.1", tag:"ワンピ・フェス限定", qty:44, price:7500, net:297000, cost:226853, rihaba:70146, retMax:45, retLabel:"+22〜45%", overseas:true },
+    { name:"ONE PIECE THE BEST BOX", tag:"ワンピ・PRB01", qty:1, price:19000, net:17100, cost:5500, rihaba:11600, retMax:211, retLabel:"+211%", overseas:false },
+    { name:"拡張パック「タッグボルト」パック", tag:"ポケカ", qty:1, price:12000, net:10800, cost:5999, rihaba:4801, retMax:80, retLabel:"+80%", overseas:false },
+    { name:"カスミのラプラス AR", tag:"ポケカ", qty:1, price:16000, net:14400, cost:10000, rihaba:4400, retMax:44, retLabel:"+44%", overseas:false }
+  ],
+  buys: [
+    { name:"STORY BOOSTER 01 BOX", tag:"DB", buyAt:"定価6,600〜9,000", score:"S", note:"8/8発売・予約即完売傾向", verdict:"買い", cls:"buy" },
+    { name:"LIMITED PACK WCS2026 BOX", tag:"遊戯王", buyAt:"定価〜5,000", score:"S", note:"8/29発売・OTS限定。歴代WCSはプレ値化", verdict:"買い", cls:"buy" },
+    { name:"劇場版ROAD TO NINJA 未開封セット", tag:"NARUTO", buyAt:"20,000以下", score:"S", note:"NR-15素体高騰に連動", verdict:"買い", cls:"buy" },
+    { name:"QUARTER CENTURY ART COLLECTION", tag:"遊戯王", buyAt:"5,000以下", score:"B", note:"定価割れの仕込み型・1〜2年", verdict:"買い(長期)", cls:"buy" },
+    { name:"世界最強の戦士 BOX", tag:"ワンピ・OP-17", buyAt:"定価入手のみ", score:"B", note:"8/22発売・4周年。プレ値は追わない", verdict:"抽選/定価", cls:"lot" },
+    { name:"30th CELEBRATION BOX", tag:"ポケモン", buyAt:"定価7,200（抽選）", score:"B", note:"9/16発売・30周年。初動短期利確", verdict:"抽選参加", cls:"lot" }
+  ],
+  top5: [
+    { name:"ブラッキー（★・旧裏）PSA10", value:1100000 },
+    { name:"ワタルのリザードン（VS・1ED）", value:820000 },
+    { name:"わるいゲンガー（★・旧裏）", value:800000 },
+    { name:"カツラのリザードン（旧裏）PSA10", value:570000 },
+    { name:"ピカチュウ（スプリットアース）", value:478000 }
+  ],
+  brief: {
+    date:"2026-08-08", type:"週次フル",
+    mood:"ポケカは調整局面（MEGA系BOX・現代ex/SARが軟調、旧裏PSA10高額帯は堅調）。ワンピは強い（THE BEST BOXが3ヶ月+30%）。ナルトは新作TCG思惑で投機的に上昇。遊戯王は25th限定が下値堅い。",
+    portfolio:"資産の95.3%がポケカに集中。含み益+6.3%の大半もポケカ由来＝ポケカ調整が全体を直撃する構造（一極集中リスク）。回転在庫（ナルト×10・assort×44）に利幅¥205,000相当の利確余地。コレクション（旧裏PSA10）は評価額は大きいが利幅は小さい。",
+    categories:[
+      { name:"ポケカ", hold:"主力", dir:"down", text:"MEGA系BOX・現代ex/SARが軟調〜調整。旧裏PSA10高額帯は堅調。高値づかみ注意、受注/再販発表は急落要因で最優先監視。" },
+      { name:"ワンピ", hold:"保有小", dir:"up", text:"THE BEST BOX等が高値圏継続。保有分は利確検討（利幅小）。OP-17は定価入手のみ。" },
+      { name:"ナルト", hold:"回転在庫", dir:"up", text:"NR-15が新作思惑で上昇。10枚集中を段階利確（最大利幅¥135,121）。材料出尽くし・真贋に注意。" },
+      { name:"遊戯王", hold:"ほぼ無", dir:"flat", text:"QCLP/WCS2026など25th限定は再販薄で下値堅い。分散先の第一候補。" },
+      { name:"DB", hold:"未保有", dir:"watch", text:"STORY BOOSTER 01発売。MANGA BOOSTER前例で妙味。定価入手の芽。" }
+    ],
+    calendar:[
+      { d:"8/22", t:"ワンピ OP-17「世界最強の戦士」発売（4周年）" },
+      { d:"8/29", t:"遊戯王 WCS2026（OTS限定）" },
+      { d:"9/16", t:"ポケカ 30th CELEBRATION／FUTURISTIC 発売" },
+      { d:"随時", t:"ポケカMEGA系の受注生産・再販発表（急落トリガー）" }
+    ],
+    actions:{
+      sell:"①ナルトNR-15×10 +¥135,121　②-6 assort×44 +¥70,146　③THE BEST BOX +¥11,600",
+      buy:"STORY BOOSTER 01（DB）／ WCS2026（遊戯王）／ ROAD TO NINJAセット（ナルト）",
+      caution:"ポケカMEGA系の受注/再販アナウンス、ナルトの材料出尽くし、-6 assortの在庫過多（44点）"
+    },
+    diversify:"ポケカ一極のヘッジに——遊戯王25th限定（再販ゼロ・下値堅い）、DB新弾（初動）、ナルト2027新作（初版バブル前例）。少額から興味カテゴリを広げると市場感度も上がる。",
+    pulses:[
+      { d:"8/8", mood:"ポケカ調整継続・ワンピ強い", act:"ナルトNR-15を段階利確（最大利幅¥135,121）", alert:"特筆なし" }
+    ]
+  }
+};
+
+const yen = n => "¥" + Math.round(n).toLocaleString("ja-JP");
+const $ = id => document.getElementById(id);
+
+$("upd").textContent = DATA.updated + " 更新";
+$("h-total").textContent = DATA.summary.total.toLocaleString("ja-JP");
+$("h-pill").textContent = "含み益 " + yen(DATA.summary.unrealized) + "（+" + DATA.summary.pct.toFixed(1) + "%）";
+$("h-net").textContent = yen(DATA.summary.net);
+$("h-inv").textContent = yen(DATA.summary.invested);
+$("k-pl").innerHTML = '<span style="color:var(--good-ink)">+' + yen(DATA.summary.unrealized) + '</span>';
+$("k-plp").innerHTML = '<span style="color:var(--good-ink)">+' + DATA.summary.pct.toFixed(1) + '%</span>';
+$("k-psa").innerHTML = DATA.summary.psa10 + '<small> 枚</small>';
+$("k-kind").innerHTML = DATA.summary.kinds + '<small> 種</small>';
+
+/* 今日の一手：利幅最大の売り */
+const topSell = [...DATA.sells].sort((a,b)=>b.rihaba-a.rihaba)[0];
+$("t-act").textContent = topSell.name + (topSell.qty>1?` ×${topSell.qty} を利確`:" を利確");
+$("t-amt").textContent = "+" + yen(topSell.rihaba);
+$("t-sub").textContent = `想定手取り ${yen(topSell.net)}・現在 ${yen(topSell.price)}/点。売り時シグナル最大の利幅です（分散利確推奨）。`;
+
+/* 凡例 */
+$("legend").innerHTML = DATA.allocation.map(a =>
+  `<div class="row"><span class="sw" style="background:${a.color}"></span>
+   <span class="nm">${a.name}</span><span class="pc">${a.pct}%</span>
+   <span class="amt">${yen(a.value)}</span></div>`).join("");
+
+/* 資産推移 */
+(function(){
+  const t=DATA.trend, W=440, H=120, pad=30;
+  const vals=t.map(d=>d.value), min=Math.min(...vals)*0.96, max=Math.max(...vals)*1.02;
+  const x=i=>pad+i*(W-pad*2)/(t.length-1), y=v=>H-24-(v-min)/(max-min)*(H-44);
+  const pts=t.map((d,i)=>[x(i),y(d.value)]);
+  const line=pts.map((p,i)=>(i?"L":"M")+p[0]+" "+p[1]).join(" ");
+  const area=line+` L ${x(t.length-1)} ${H-14} L ${x(0)} ${H-14} Z`;
+  const vlabels=pts.map((p,i)=>`<text x="${p[0]}" y="${p[1]-10}" fill="var(--ink)" font-size="11.5" font-weight="800" text-anchor="middle">¥${(t[i].value/1e6).toFixed(2)}M</text>`).join("");
+  const labels=t.map((d,i)=>`<text x="${x(i)}" y="${H-2}" fill="var(--muted)" font-size="11" text-anchor="middle">${d.label}</text>`).join("");
+  $("trend").innerHTML=`<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">
+    <defs><linearGradient id="g" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="var(--blue)" stop-opacity=".33"/><stop offset="1" stop-color="var(--blue)" stop-opacity="0"/></linearGradient></defs>
+    <path d="${area}" fill="url(#g)"/><path d="${line}" fill="none" stroke="var(--blue)" stroke-width="2.5" stroke-linecap="round"/>
+    ${pts.map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="4" fill="var(--blue)" stroke="var(--surface)" stroke-width="2"/>`).join("")}
+    ${vlabels}${labels}</svg>`;
+})();
+
+/* シグナル：売り */
+$("cnt-sell").textContent = DATA.signals.sell;
+$("cnt-buy").textContent = DATA.buys.length;
+$("imp-n").textContent = "+" + yen(DATA.sellTotalRihaba);
+$("imp-s").textContent = `売り時 ${DATA.sellCount} 件の合計利幅（手取り − 原価）。うち約¥205,000が上位2件。`;
+
+let sortKey = "rihaba";
+function setSort(k){ sortKey=k; document.querySelectorAll(".chip").forEach(c=>c.classList.toggle("on",c.dataset.sort===k)); renderSells(); }
+function mercari(name){ return "https://jp.mercari.com/search?keyword="+encodeURIComponent(name)+"&status=on_sale"; }
+function renderSells(){
+  const list=[...DATA.sells].sort((a,b)=> sortKey==="rihaba" ? b.rihaba-a.rihaba : b.retMax-a.retMax);
+  $("sig-sell").innerHTML = list.map((s,i)=>{
+    const shop=Math.round(s.price*s.qty*0.75);
+    const ebay = s.overseas ? Math.round(s.price*s.qty*1.1*0.85) : null;
+    return `<div class="item sell">
+      <div class="head">
+        <div class="rail"></div>
+        <div class="body"><div class="nm">${s.name}</div>
+          <div class="meta">${s.tag}${s.qty>1?"・"+s.qty+"点保有":""}・現在 ${yen(s.price)}/点</div>
+        </div>
+        <div class="right"><div class="rihaba">+${yen(s.rihaba).slice(1)}<span class="u">円</span></div>
+          <div class="sub2">実利率 ${s.retLabel}</div>
+          <div class="sub2">手取り <b>${yen(s.net)}</b></div>
+        </div>
+      </div>
+      <div class="toggle" onclick="document.getElementById('d${i}').classList.toggle('on')">▸ 販路と手取りを比較</div>
+      <div class="detail" id="d${i}">
+        <div class="dl">${s.qty}点を今売った場合の手取り目安（手数料込・参考値）</div>
+        <div class="venue"><span class="vn">メルカリ（−10%）</span><span class="vv best">${yen(s.net)}</span></div>
+        <div class="venue"><span class="vn">店舗買取（概算 −25%）</span><span class="vv">${yen(shop)}</span></div>
+        ${ebay?`<div class="venue"><span class="vn">eBay 海外（概算）</span><span class="vv">${yen(ebay)}</span></div>`:""}
+        <div class="cta">
+          <a href="${mercari(s.name)}" target="_blank" rel="noopener">メルカリで出品する →</a>
+          <button onclick="alert('価格アラートはProで即時通知（予定）')">🔔 <span class="pro">Pro</span></button>
+        </div>
+      </div>
+    </div>`;
+  }).join("");
+}
+renderSells();
+
+$("sig-buy").innerHTML = DATA.buys.map(b=>`
+  <div class="item buy"><div class="head"><div class="rail"></div>
+    <div class="body"><div class="nm">${b.name}</div><div class="meta">${b.note}</div>
+      <div class="tags"><span class="tag">${b.tag}</span><span class="tag">買い目安 ${b.buyAt}</span><span class="tag s">妙味 ${b.score}</span></div>
+    </div>
+    <div class="right"><span class="verdict ${b.cls}">${b.verdict}</span></div>
+  </div></div>`).join("");
+
+/* Top5 */
+const maxV=Math.max(...DATA.top5.map(t=>t.value));
+$("top5").innerHTML=DATA.top5.map((t,i)=>`
+  <div class="rank"><div class="no ${i===0?'gold':''}">${i+1}</div>
+    <div class="info"><div class="nm">${t.name}</div><div class="bar"><i style="width:${(t.value/maxV*100).toFixed(0)}%"></i></div></div>
+    <div class="val">${yen(t.value)}</div></div>`).join("");
+
+/* ブリーフ */
+(function(){
+  const b=DATA.brief;
+  const dl={down:"↓ 調整", up:"↑ 強い", flat:"→ 堅調", watch:"◎ 注目"};
+  const cats=b.categories.map(c=>`
+    <div class="catrow"><div class="cn"><div class="n">${c.name}</div><div class="h">${c.hold}</div></div>
+      <div class="ct"><span class="dir ${c.dir}">${dl[c.dir]}</span><br>${c.text}</div></div>`).join("");
+  const cal=b.calendar.map(c=>`<div class="cal"><span class="cd">${c.d}</span><span class="cx">${c.t}</span></div>`).join("");
+  const pulses=b.pulses.map(p=>`<div class="pulse"><span class="pd">${p.d}</span>${p.mood}／今日の一手：${p.act}${(p.alert&&p.alert!=="特筆なし")?"／⚠️"+p.alert:""}</div>`).join("");
+  $("brief").innerHTML=`
+    <div class="bhead"><span class="date">🗓 ${b.date}</span><span class="type">${b.type}</span></div>
+    <div class="bsec"><div class="blabel">① 今週の地合い</div><div class="lead">${b.mood}</div></div>
+    <div class="bsec"><div class="blabel">② あなたのポートフォリオへの気づき</div><div class="lead warn">${b.portfolio}</div></div>
+    <div class="bsec"><div class="blabel">③ カテゴリ別トレンド＆注意</div>${cats}</div>
+    <div class="bsec"><div class="blabel">④ 逃さないカレンダー</div>${cal}</div>
+    <div class="bsec"><div class="blabel">⑤ 今週のアクション</div>
+      <div class="ab sell"><div class="abl">売り（利幅順）</div>${b.actions.sell}</div>
+      <div class="ab buy"><div class="abl">買い（妙味S）</div>${b.actions.buy}</div>
+      <div class="ab caution"><div class="abl">注意</div>${b.actions.caution}</div></div>
+    <div class="bsec"><div class="blabel">⑥ 分散の芽</div><div class="lead">${b.diversify}</div></div>
+    <div class="bsec"><div class="blabel">日次パルス（最新）</div>${pulses}</div>`;
+})();
+
+function showView(v){
+  document.querySelectorAll(".view").forEach(el=>el.classList.remove("on"));
+  $("view-"+v).classList.add("on");
+  document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("on", b.dataset.nav===v));
+  window.scrollTo({top:0});
+}
+function showSig(s){
+  $("pane-sell").style.display = s==="sell"?"block":"none";
+  $("pane-buy").style.display  = s==="buy"?"block":"none";
+  document.querySelectorAll(".seg button").forEach(b=>b.classList.toggle("on", b.dataset.sig===s));
+}
+</script>
+</body>
+</html>
