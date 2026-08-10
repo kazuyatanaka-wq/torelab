@@ -3,8 +3,8 @@
   "summary": {
     "total": 15680918,
     "net": 14112826,
-    "invested": 15007205,
-    "unrealized": 673713,
+    "invested": 15008205,
+    "unrealized": 672713,
     "pct": 4.5,
     "psa10": 97,
     "kinds": 183
@@ -41,7 +41,7 @@
     "loss": 63,
     "keep": 75
   },
-  "sellTotalRihaba": 226069,
+  "sellTotalRihaba": 225069,
   "sellCount": 29,
   "trend": [
     {
