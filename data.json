@@ -1,18 +1,18 @@
 {
   "updated": "2026/08/12",
   "summary": {
-    "total": 17320551,
-    "net": 15588495,
+    "total": 17410251,
+    "net": 15669225,
     "invested": 16663373,
-    "unrealized": 657178,
-    "pct": 3.9,
+    "unrealized": 746878,
+    "pct": 4.5,
     "psa10": 97,
     "kinds": 217
   },
   "allocation": [
     {
       "name": "ポケカ",
-      "value": 15551946,
+      "value": 15641646,
       "pct": 89.8,
       "color": "var(--blue)"
     },
@@ -50,7 +50,7 @@
     },
     {
       "label": "8/12",
-      "value": 17320551
+      "value": 17410251
     }
   ],
   "sells": [
@@ -276,7 +276,7 @@
   "top5": [
     {
       "name": "ブラッキー（★・旧裏）PSA10",
-      "value": 950300
+      "value": 1040000
     },
     {
       "name": "わるいゲンガー（★・旧裏）",
