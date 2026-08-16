@@ -1,18 +1,18 @@
 {
   "updated": "2026/08/16",
   "summary": {
-    "total": 17892537,
-    "net": 16103283,
-    "invested": 17133339,
+    "total": 17892536,
+    "net": 16103282,
+    "invested": 17133338,
     "unrealized": 759198,
     "pct": 4.4,
     "psa10": 95,
-    "kinds": 236
+    "kinds": 235
   },
   "allocation": [
     {
       "name": "ポケカ",
-      "value": 15939710,
+      "value": 15939709,
       "pct": 89.1,
       "color": "var(--blue)"
     },
@@ -39,7 +39,7 @@
     "sell": 28,
     "hold": 14,
     "loss": 62,
-    "keep": 131
+    "keep": 130
   },
   "sellTotalRihaba": 220669,
   "sellCount": 28,
@@ -50,7 +50,7 @@
     },
     {
       "label": "8/16",
-      "value": 17892537
+      "value": 17892536
     }
   ],
   "sells": [
