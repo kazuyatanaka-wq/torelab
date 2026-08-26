@@ -1,25 +1,25 @@
 {
   "updated": "2026/08/26",
   "summary": {
-    "total": 18567217,
-    "net": 16710495,
-    "invested": 17137760,
-    "unrealized": 1429457,
-    "pct": 8.3,
+    "total": 20916863,
+    "net": 18825177,
+    "invested": 19487883,
+    "unrealized": 1428980,
+    "pct": 7.3,
     "psa10": 95,
-    "kinds": 235
+    "kinds": 271
   },
   "allocation": [
     {
       "name": "ポケカ",
-      "value": 16017609,
-      "pct": 86.3,
+      "value": 17818337,
+      "pct": 85.2,
       "color": "var(--blue)"
     },
     {
       "name": "ワンピ",
       "value": 1118204,
-      "pct": 6,
+      "pct": 5.3,
       "color": "var(--orange)"
     },
     {
@@ -37,9 +37,9 @@
   ],
   "signals": {
     "sell": 21,
-    "hold": 14,
-    "loss": 62,
-    "keep": 118
+    "hold": 13,
+    "loss": 60,
+    "keep": 115
   },
   "sellTotalRihaba": 220669,
   "sellCount": 28,
@@ -50,7 +50,7 @@
     },
     {
       "label": "8/26",
-      "value": 18567217
+      "value": 20916863
     }
   ],
   "sells": [
@@ -359,7 +359,7 @@
     "pulses": [
       {
         "d": "8/26",
-        "mood": "自動更新（ポケカ86.3%集中）",
+        "mood": "自動更新（ポケカ85.2%集中）",
         "act": "うずまきナルト P（劇場版来場者特典）⑤ を利確（利幅+¥16,001）",
         "alert": "特筆なし"
       },
