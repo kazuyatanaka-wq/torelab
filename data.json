@@ -39,10 +39,10 @@
     "sell": 5,
     "hold": 12,
     "loss": 58,
-    "keep": 110
+    "keep": 195
   },
-  "sellTotalRihaba": 220669,
-  "sellCount": 28,
+  "sellTotalRihaba": 181721,
+  "sellCount": 21,
   "trend": [
     {
       "label": "8/4",
@@ -55,111 +55,39 @@
   ],
   "sells": [
     {
-      "name": "うずまきナルト P（劇場版来場者特典）⑤",
-      "tag": "ナルト",
-      "qty": 1,
-      "price": 40000,
-      "net": 36000,
-      "cost": 19999,
-      "rihaba": 16001,
-      "retMax": 80,
-      "retLabel": "+80%",
-      "overseas": false
-    },
-    {
-      "name": "うずまきナルト P（劇場版来場者特典）⑩",
-      "tag": "ナルト",
-      "qty": 1,
-      "price": 40000,
-      "net": 36000,
-      "cost": 19999,
-      "rihaba": 16001,
-      "retMax": 80,
-      "retLabel": "+80%",
-      "overseas": false
-    },
-    {
       "name": "うずまきナルト P（劇場版来場者特典）①",
       "tag": "ナルト",
       "qty": 1,
-      "price": 40000,
-      "net": 36000,
+      "price": 60000,
+      "net": 54000,
       "cost": 20000,
-      "rihaba": 16000,
-      "retMax": 80,
-      "retLabel": "+80%",
-      "overseas": false
-    },
-    {
-      "name": "うずまきナルト P（劇場版来場者特典）⑥",
-      "tag": "ナルト",
-      "qty": 1,
-      "price": 40000,
-      "net": 36000,
-      "cost": 20000,
-      "rihaba": 16000,
-      "retMax": 80,
-      "retLabel": "+80%",
+      "rihaba": 34000,
+      "retMax": 170,
+      "retLabel": "+170%",
       "overseas": false
     },
     {
       "name": "うずまきナルト P（劇場版来場者特典）②",
       "tag": "ナルト",
       "qty": 1,
-      "price": 40000,
-      "net": 36000,
+      "price": 60000,
+      "net": 54000,
       "cost": 22500,
-      "rihaba": 13500,
-      "retMax": 60,
-      "retLabel": "+60%",
-      "overseas": false
-    },
-    {
-      "name": "うずまきナルト P（劇場版来場者特典）④",
-      "tag": "ナルト",
-      "qty": 1,
-      "price": 40000,
-      "net": 36000,
-      "cost": 23000,
-      "rihaba": 13000,
-      "retMax": 57,
-      "retLabel": "+57%",
+      "rihaba": 31500,
+      "retMax": 140,
+      "retLabel": "+140%",
       "overseas": false
     },
     {
       "name": "うずまきナルト P（劇場版来場者特典）③",
       "tag": "ナルト",
       "qty": 1,
-      "price": 40000,
-      "net": 36000,
+      "price": 60000,
+      "net": 54000,
       "cost": 23327,
-      "rihaba": 12673,
-      "retMax": 54,
-      "retLabel": "+54%",
-      "overseas": false
-    },
-    {
-      "name": "うずまきナルト P（劇場版来場者特典）⑦",
-      "tag": "ナルト",
-      "qty": 1,
-      "price": 40000,
-      "net": 36000,
-      "cost": 23327,
-      "rihaba": 12673,
-      "retMax": 54,
-      "retLabel": "+54%",
-      "overseas": false
-    },
-    {
-      "name": "うずまきナルト P（劇場版来場者特典）⑧",
-      "tag": "ナルト",
-      "qty": 1,
-      "price": 40000,
-      "net": 36000,
-      "cost": 23327,
-      "rihaba": 12673,
-      "retMax": 54,
-      "retLabel": "+54%",
+      "rihaba": 30673,
+      "retMax": 132,
+      "retLabel": "+132%",
       "overseas": false
     },
     {
@@ -175,16 +103,16 @@
       "overseas": false
     },
     {
-      "name": "うずまきナルト P（劇場版来場者特典）⑨",
-      "tag": "ナルト",
-      "qty": 1,
-      "price": 24000,
-      "net": 21600,
-      "cost": 15000,
-      "rihaba": 6600,
-      "retMax": 44,
-      "retLabel": "+44%",
-      "overseas": false
+      "name": "ONE PIECE プレミアムカードコレクション -6 assort vol.1-",
+      "tag": "ワンピ",
+      "qty": 4,
+      "price": 7500,
+      "net": 27000,
+      "cost": 20500,
+      "rihaba": 6500,
+      "retMax": 32,
+      "retLabel": "+32%",
+      "overseas": true
     },
     {
       "name": "ONE PIECE プレミアムカードコレクション -6 assort vol.1-",
@@ -196,6 +124,78 @@
       "rihaba": 6500,
       "retMax": 32,
       "retLabel": "+32%",
+      "overseas": true
+    },
+    {
+      "name": "ONE PIECE プレミアムカードコレクション -6 assort vol.1-",
+      "tag": "ワンピ",
+      "qty": 4,
+      "price": 7500,
+      "net": 27000,
+      "cost": 20999,
+      "rihaba": 6001,
+      "retMax": 29,
+      "retLabel": "+29%",
+      "overseas": true
+    },
+    {
+      "name": "ONE PIECE プレミアムカードコレクション -6 assort vol.1-",
+      "tag": "ワンピ",
+      "qty": 4,
+      "price": 7500,
+      "net": 27000,
+      "cost": 20999,
+      "rihaba": 6001,
+      "retMax": 29,
+      "retLabel": "+29%",
+      "overseas": true
+    },
+    {
+      "name": "ONE PIECE プレミアムカードコレクション -6 assort vol.1-",
+      "tag": "ワンピ",
+      "qty": 4,
+      "price": 7500,
+      "net": 27000,
+      "cost": 21000,
+      "rihaba": 6000,
+      "retMax": 29,
+      "retLabel": "+29%",
+      "overseas": true
+    },
+    {
+      "name": "ONE PIECE プレミアムカードコレクション -6 assort vol.1-",
+      "tag": "ワンピ",
+      "qty": 4,
+      "price": 7500,
+      "net": 27000,
+      "cost": 21000,
+      "rihaba": 6000,
+      "retMax": 29,
+      "retLabel": "+29%",
+      "overseas": true
+    },
+    {
+      "name": "ONE PIECE プレミアムカードコレクション -6 assort vol.1-",
+      "tag": "ワンピ",
+      "qty": 3,
+      "price": 7500,
+      "net": 20250,
+      "cost": 15000,
+      "rihaba": 5250,
+      "retMax": 35,
+      "retLabel": "+35%",
+      "overseas": true
+    },
+    {
+      "name": "ONE PIECE プレミアムカードコレクション -6 assort vol.1-",
+      "tag": "ワンピ",
+      "qty": 3,
+      "price": 7500,
+      "net": 20250,
+      "cost": 15100,
+      "rihaba": 5150,
+      "retMax": 34,
+      "retLabel": "+34%",
       "overseas": true
     }
   ],
@@ -360,7 +360,7 @@
       {
         "d": "8/28",
         "mood": "自動更新（ポケカ85.9%集中）",
-        "act": "うずまきナルト P（劇場版来場者特典）⑤ を利確（利幅+¥16,001）",
+        "act": "うずまきナルト P（劇場版来場者特典）① を利確（利幅+¥34,000）",
         "alert": "特筆なし"
       },
       {
